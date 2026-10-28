@@ -1,0 +1,477 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>INKWELL · tattoo studio pricing</title>
+    <!-- Font Awesome for tiny icons, optional but adds flavor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ---------- GLOBAL RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f7f3ef;  /* warm off-white, paper-like */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #1e1a17;
+            line-height: 1.5;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* subtle ink texture overlay (purely cosmetic) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.03"/></svg>');
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* main container – max width for readability */
+        .studio-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ---------- HEADER / BRANDING ---------- */
+        .studio-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px dashed #c9b6a8;
+            padding-bottom: 1.75rem;
+            position: relative;
+        }
+
+        .studio-header h1 {
+            font-size: clamp(2.2rem, 8vw, 3.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            color: #2c241e;
+            display: inline-block;
+            background: #f7f3ef;
+            padding: 0 1rem;
+            position: relative;
+            top: 0.8rem;
+        }
+
+        .studio-header .tagline {
+            font-size: 1.05rem;
+            color: #5e4f45;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-top: 0.25rem;
+        }
+
+        /* small decorative ink splatter */
+        .ink-splat {
+            font-size: 1.8rem;
+            opacity: 0.2;
+            color: #372e28;
+            margin: 0 0.25rem;
+        }
+
+        /* ---------- CATEGORY GRID (responsive) ---------- */
+        .category-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0 2rem;
+        }
+
+        /* each card – flex basis ensures responsiveness */
+        .tattoo-card {
+            flex: 1 1 280px;
+            max-width: 360px;
+            background: #ffffff;
+            border-radius: 32px 32px 24px 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06), 0 4px 10px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e3d9d0;
+            overflow: hidden;
+        }
+
+        .tattoo-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.08), 0 10px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        /* decorative top band (like ink gradient) */
+        .card-band {
+            height: 10px;
+            background: linear-gradient(90deg, #a68978, #cbb7a8, #a68978);
+        }
+
+        .card-content {
+            padding: 1.75rem 1.75rem 2rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        /* category title */
+        .category-name {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #1f1a16;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-name i {
+            font-size: 1.6rem;
+            color: #9b7b64;
+        }
+
+        /* short description */
+        .category-desc {
+            font-size: 0.95rem;
+            color: #6f6258;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            border-left: 3px solid #d9cabc;
+            padding-left: 1rem;
+        }
+
+        /* price block */
+        .price-block {
+            background: #faf7f4;
+            border-radius: 20px;
+            padding: 1.25rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #eee7e1;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #7f6b5d;
+            font-weight: 500;
+        }
+
+        .price-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e1a17;
+            line-height: 1.2;
+        }
+
+        .price-amount small {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #8a7a6e;
+            margin-left: 4px;
+        }
+
+        .deposit-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-top: 1px dashed #d9cfc7;
+            padding-top: 0.7rem;
+            margin-top: 0.3rem;
+        }
+
+        .deposit-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #7f6b5d;
+            font-weight: 500;
+        }
+
+        .deposit-amount {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #9b7b64;
+        }
+
+        .deposit-amount small {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #a18e80;
+            margin-left: 2px;
+        }
+
+        /* features / bullet points */
+        .features {
+            list-style: none;
+            margin: 1rem 0 1.5rem;
+        }
+
+        .features li {
+            font-size: 0.9rem;
+            color: #3f362f;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .features i {
+            width: 1.1rem;
+            color: #a68978;
+            font-size: 0.85rem;
+        }
+
+        /* call to action button */
+        .cta-btn {
+            margin-top: auto;
+            background: #2c241e;
+            color: white;
+            border: none;
+            padding: 0.95rem 1rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            width: 100%;
+            border: 1px solid #1e1a17;
+            box-shadow: 0 6px 0 #0e0b0a;
+        }
+
+        .cta-btn i {
+            font-size: 0.9rem;
+        }
+
+        .cta-btn:hover {
+            background: #4a3f37;
+        }
+
+        .cta-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 #0e0b0a;
+        }
+
+        /* ---------- FOOTNOTE / INFO ---------- */
+        .studio-footer {
+            margin-top: 3.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #7b6b60;
+            border-top: 1px solid #d9cfc7;
+            padding-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem 3rem;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .footer-item i {
+            font-size: 1.1rem;
+            color: #9b7b64;
+        }
+
+        /* ---------- RESPONSIVE TWEAKS ---------- */
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+
+            .studio-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .category-grid {
+                gap: 1.5rem;
+            }
+
+            .tattoo-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            .price-amount {
+                font-size: 1.9rem;
+            }
+
+            .studio-footer {
+                flex-direction: column;
+                gap: 0.8rem;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .card-content {
+                padding: 1.25rem;
+            }
+
+            .category-name {
+                font-size: 1.6rem;
+            }
+
+            .deposit-amount {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="studio-container">
+        <!-- HEADER -->
+        <header class="studio-header">
+            <h1>INK & IRON</h1>
+            <div class="tagline">
+                <span class="ink-splat">⸙</span> tattoo studio · est. 2012 <span class="ink-splat">⸙</span>
+            </div>
+        </header>
+
+        <!-- MAIN CATEGORIES -->
+        <div class="category-grid">
+            <!-- SMALL TATTOO CARD -->
+            <article class="tattoo-card">
+                <div class="card-band"></div>
+                <div class="card-content">
+                    <div class="category-name">
+                        <i class="fas fa-feather-alt"></i> SMALL
+                    </div>
+                    <p class="category-desc">Minimalist, fine line & tiny symbols</p>
+
+                    <div class="price-block">
+                        <div class="price-row">
+                            <span class="price-label">Starting at</span>
+                            <span class="price-amount">$200 <small>USD</small></span>
+                        </div>
+                        <div class="deposit-row">
+                            <span class="deposit-label">Deposit</span>
+                            <span class="deposit-amount">$50 <small>USD</small></span>
+                        </div>
+                    </div>
+
+                    <ul class="features">
+                        <li><i class="fas fa-circle"></i> Up to 3 inches</li>
+                        <li><i class="fas fa-circle"></i> Single session (30–60 min)</li>
+                        <li><i class="fas fa-circle"></i> Black & grey / minimal colour</li>
+                    </ul>
+
+                    <button class="cta-btn">
+                        <i class="fas fa-calendar-check"></i> BOOK SMALL
+                    </button>
+                </div>
+            </article>
+
+            <!-- MEDIUM TATTOO CARD -->
+            <article class="tattoo-card">
+                <div class="card-band"></div>
+                <div class="card-content">
+                    <div class="category-name">
+                        <i class="fas fa-pen-fancy"></i> MEDIUM
+                    </div>
+                    <p class="category-desc">Detailed pieces, script & medium motifs</p>
+
+                    <div class="price-block">
+                        <div class="price-row">
+                            <span class="price-label">Starting at</span>
+                            <span class="price-amount">$500 <small>USD</small></span>
+                        </div>
+                        <div class="deposit-row">
+                            <span class="deposit-label">Deposit</span>
+                            <span class="deposit-amount">$200 <small>USD</small></span>
+                        </div>
+                    </div>
+
+                    <ul class="features">
+                        <li><i class="fas fa-circle"></i> 4 – 8 inches</li>
+                        <li><i class="fas fa-circle"></i> 1–2 sessions</li>
+                        <li><i class="fas fa-circle"></i> Shading & colour options</li>
+                    </ul>
+
+                    <button class="cta-btn">
+                        <i class="fas fa-calendar-check"></i> BOOK MEDIUM
+                    </button>
+                </div>
+            </article>
+
+            <!-- LARGE TATTOO CARD -->
+            <article class="tattoo-card">
+                <div class="card-band"></div>
+                <div class="card-content">
+                    <div class="category-name">
+                        <i class="fas fa-mountain"></i> LARGE
+                    </div>
+                    <p class="category-desc">Sleeves, back pieces & big custom work</p>
+
+                    <div class="price-block">
+                        <div class="price-row">
+                            <span class="price-label">Starting at</span>
+                            <span class="price-amount">$700 <small>USD</small></span>
+                        </div>
+                        <div class="deposit-row">
+                            <span class="deposit-label">Deposit</span>
+                            <span class="deposit-amount">$500 <small>USD</small></span>
+                        </div>
+                    </div>
+
+                    <ul class="features">
+                        <li><i class="fas fa-circle"></i> 9+ inches / multi‑session</li>
+                        <li><i class="fas fa-circle"></i> Full custom design</li>
+                        <li><i class="fas fa-circle"></i> Colour / blackwork / realism</li>
+                    </ul>
+
+                    <button class="cta-btn">
+                        <i class="fas fa-calendar-check"></i> BOOK LARGE
+                    </button>
+                </div>
+            </article>
+        </div>
+
+        <!-- FOOTER / EXTRA INFO -->
+        <footer class="studio-footer">
+            <div class="footer-item">
+                <i class="fas fa-map-pin"></i> 221 Ink Lane, Portland
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-clock"></i> Tue–Sat · 12pm–8pm
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-phone-alt"></i> (555) 728-3475
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
